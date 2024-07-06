@@ -26,7 +26,7 @@
             if ($result) {
                 while ($row = mysqli_fetch_assoc($result)) {
                     if ($row['user_id'] == $user_id) {
-                        print "<tr><form action='home.php' method='post'>";
+                        print "<tr><form action='Update_form.php' method='post'>";
                         print "<input type='hidden' name='id' value=" . $row['id'] . ">";
                         print "<th scope='row'>" . $no . "</th>
                         <td><img src='" . $row['img_name'] . "' alt='LOL' hight='100px' width='100px'></tb>
@@ -34,8 +34,13 @@
                         <td>" . $row['dob'] . "</tb>
                         <td>" . $row['gender'] . "</tb>
                         <td>" . $row['city'] . "</tb>
-                        <td><button class='btn btn-sm btn-primary' name='deletebutton'>Delete</button></tb>";
-                        print "</form></tr>";
+                        <td><button class='btn btn-sm btn-primary' name='updatebutton'>Update</button></form>
+                        <form action='home.php' method='post'>
+                        <input type='hidden' name='id' value=" . $row['id'] . ">
+                        <button class='btn btn-sm btn-primary' name='deletebutton'>Delete</button>
+                        </form>
+                        </tb>";
+                        print "</tr>";
                         $no++;
                     }
                 }

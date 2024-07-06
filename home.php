@@ -52,6 +52,51 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
 		// Close the statement
 		$stmt->close();
+	} elseif (isset($_POST['update'])) {
+		$id = $_POST['id'];
+		$first_name = mysqli_real_escape_string($conn, $_POST['first_name']);
+		$last_name = mysqli_real_escape_string($conn, $_POST['last_name']);
+		$dob = mysqli_real_escape_string($conn, $_POST['dob']);
+		$gender = mysqli_real_escape_string($conn, $_POST['gender']);
+		$city = mysqli_real_escape_string($conn, $_POST['city']);
+		$target_file = "lol";
+
+		// Handling file upload
+		$allowed_file_types = ['image/png', 'image/jpeg'];
+		$max_file_size = 10 * 1024 * 1024; // 10MB in bytes
+
+		if (isset($_FILES['img_name']) && $_FILES['img_name']['error'] == 0) {
+			$img_name = $_FILES['img_name']['name'];
+			$file_size = $_FILES['img_name']['size'];
+			$file_type = mime_content_type($_FILES['img_name']['tmp_name']);
+			$target_dir = "uploads/";
+			$target_file = $target_dir . basename($img_name);
+
+			if (!in_array($file_type, $allowed_file_types)) {
+				echo "Invalid file type. Only PNG and JPEG files are allowed.";
+				exit();
+			}
+			if ($file_size > $max_file_size) {
+				echo "File size exceeds the 10MB limit.";
+				exit();
+			}
+
+			if (move_uploaded_file($_FILES['img_name']['tmp_name'], $target_file)) {
+				// echo "File has been uploaded.";
+			} else {
+				echo "Sorry, there was an error uploading your file.";
+				exit();
+			}
+		} else {
+			echo "File upload error.";
+			exit();
+		}
+
+		$stmt = $conn->prepare("UPDATE `student` SET `user_id` = ?, `first_name` = ?, `last_name` = ?, `dob` = ?, `gender` = ?, `city` = ?, `img_name` = ? WHERE `student`.`id` = ?");
+		$stmt->bind_param("sssssssi", $user_id, $first_name, $last_name, $dob, $gender, $city, $target_file, $id);
+		$stmt->execute();
+
+
 	} else {
 
 		$first_name = mysqli_real_escape_string($conn, $_POST['first_name']);

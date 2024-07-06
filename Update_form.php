@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Add student</title>
+    <title>Update student</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -17,6 +17,9 @@
 
     <div class="container border">
         <form action="home.php" method="post" enctype="multipart/form-data">
+
+        <input type="hidden" name="id" value="<?php  echo $_POST['id']; ?>">
+
             <div class="mb-3">
                 <label class="form-label">First name:</label>
                 <input type="text" class="form-control" name="first_name" required>
@@ -85,7 +88,7 @@
                 <label class="input-group-text">Photo of Student</label>
             </div>
 
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary" name="update">Update</button>
         </form>
 
     </div>
