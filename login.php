@@ -23,6 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 				$_SESSION['loggedin'] = true;
 				$_SESSION['username'] = $username;
 				$_SESSION['password'] = $password;
+				$_SESSION['id'] = $row['id'];
 				header("location: home.php");
 			} else {
 				$showerror = "Invalid Password and Username";

@@ -12,15 +12,15 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] != true) {
 include "components\_dbconnect.php";
 
 $username = $_SESSION["username"];
-$user_id = 0;
+$user_id = $_SESSION["id"];
 
-$sql = "SELECT * from users WHERE username='$username'; ";
-$result = mysqli_query($conn, $sql);
+// $sql = "SELECT * from users WHERE username='$username'; ";
+// $result = mysqli_query($conn, $sql);
 
-if ($result && mysqli_num_rows($result) == 1) {
-	$row = mysqli_fetch_assoc($result);
-	$user_id = $row['id'];
-}
+// if ($result && mysqli_num_rows($result) == 1) {
+// 	$row = mysqli_fetch_assoc($result);
+// 	$user_id = $row['id'];
+// }
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
 	if (isset($_POST['deletebutton'])) {
