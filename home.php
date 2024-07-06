@@ -30,27 +30,22 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 		$stmt = $conn->prepare("DELETE FROM student WHERE id = ?");
 		$stmt->bind_param("i", $id);
 
-		// Execute the statement
 		if ($stmt->execute()) {
-			// Fetch the image name before deletion
 			$stmt = $conn->prepare("SELECT img_name FROM student WHERE id = ?");
 			$stmt->bind_param("i", $id);
 			$stmt->execute();
 			$stmt->bind_result($img_name);
 			$stmt->fetch();
 
-			// Delete the image file if it exists
 			if ($img_name && file_exists("uploads/" . $img_name)) {
 				unlink("uploads/" . $img_name);
 			}
 
-			// Confirm the deletion
 			echo "<script>alert('Student deleted successfully!')</script>";
 		} else {
 			echo "<script>alert('Error deleting student.')</script>";
 		}
 
-		// Close the statement
 		$stmt->close();
 	} elseif (isset($_POST['update'])) {
 		$id = $_POST['id'];
@@ -137,7 +132,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 			exit();
 		}
 
-		// Prepare an SQL statement
 		$stmt = $conn->prepare("INSERT INTO `student` (`user_id`, `first_name`, `last_name`, `dob`, `gender`, `city`, `img_name`) 
             VALUES (?, ?, ?, ?, ?, ?, ?)");
 		$stmt->bind_param("issssss", $user_id, $first_name, $last_name, $dob, $gender, $city, $target_file);
