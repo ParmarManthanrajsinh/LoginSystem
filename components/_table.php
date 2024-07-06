@@ -1,6 +1,6 @@
 <br><br>
 <div class="container">
-    <table class="table">
+    <table class="table table-bordered">
         <thead>
             <tr class="table-primary">
                 <th scope="col">No.</th>
@@ -12,7 +12,7 @@
                 <th scope="col">Action</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody class="table-group-divider">
 
 
 
@@ -34,10 +34,10 @@
                         <td>" . $row['dob'] . "</tb>
                         <td>" . $row['gender'] . "</tb>
                         <td>" . $row['city'] . "</tb>
-                        <td><button class='btn btn-sm btn-primary' name='updatebutton'>Update</button></form>
+                        <td><button class='btn btn-sm btn-primary' name='updatebutton' style='margin: 5px;'>Update</button></form>
                         <form action='home.php' method='post'>
                         <input type='hidden' name='id' value=" . $row['id'] . ">
-                        <button class='btn btn-sm btn-primary' name='deletebutton'>Delete</button>
+                        <button class='btn btn-sm btn-primary' name='deletebutton' style='margin: 5px;'>Delete</button>
                         </form>
                         </tb>";
                         print "</tr>";
