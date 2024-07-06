@@ -9,9 +9,12 @@
                 <th scope="col">Date of Birth</th>
                 <th scope="col">Gender</th>
                 <th scope="col">City</th>
+                <th scope="col">Action</th>
             </tr>
         </thead>
         <tbody>
+
+
 
 
             <?php
@@ -23,14 +26,16 @@
             if ($result) {
                 while ($row = mysqli_fetch_assoc($result)) {
                     if ($row['user_id'] == $user_id) {
-                        print "<tr>";
+                        print "<tr><form action='home.php' method='post'>";
+                        print "<input type='hidden' name='id' value=" . $row['id'] . ">";
                         print "<th scope='row'>" . $no . "</th>
                         <td><img src='" . $row['img_name'] . "' alt='LOL' hight='100px' width='100px'></tb>
                         <td>" . $row['first_name'] . " " . $row['last_name'] . "</tb>
                         <td>" . $row['dob'] . "</tb>
                         <td>" . $row['gender'] . "</tb>
-                        <td>" . $row['city'] . "</tb>";
-                        print "</tr>";
+                        <td>" . $row['city'] . "</tb>
+                        <td><button class='btn btn-sm btn-primary' name='deletebutton'>Delete</button></tb>";
+                        print "</form></tr>";
                         $no++;
                     }
                 }

@@ -22,56 +22,69 @@ if ($result && mysqli_num_rows($result) == 1) {
       $user_id = $row['id'];
 }
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
-      $first_name = mysqli_real_escape_string($conn, $_POST['first_name']);
-      $last_name = mysqli_real_escape_string($conn, $_POST['last_name']);
-      $dob = mysqli_real_escape_string($conn, $_POST['dob']);
-      $gender = mysqli_real_escape_string($conn, $_POST['gender']);
-      $city = mysqli_real_escape_string($conn, $_POST['city']);
-      $target_file = "lol";
 
-      // Handling file upload
-      $allowed_file_types = ['image/png', 'image/jpeg'];
-      $max_file_size = 10 * 1024 * 1024; // 10MB in bytes
-
-      if (isset($_FILES['img_name']) && $_FILES['img_name']['error'] == 0) {
-            $img_name = $_FILES['img_name']['name'];
-            $file_size = $_FILES['img_name']['size'];
-            $file_type = mime_content_type($_FILES['img_name']['tmp_name']);
-            $target_dir = "uploads/";
-            $target_file = $target_dir . basename($img_name);
-
-            if (!in_array($file_type, $allowed_file_types)) {
-                  echo "Invalid file type. Only PNG and JPEG files are allowed.";
-                  exit();
+      if (isset($_POST['deletebutton'])) {
+            $id = $_POST['id'];
+            $sql = "DELETE FROM student WHERE id=$id";
+            $result = mysqli_query($conn, $sql);
+            if ($result) {
+                  echo "<script>alert('Student deleted successfully!')</script>";
             }
-            if ($file_size > $max_file_size) {
-                  echo "File size exceeds the 10MB limit.";
-                  exit();
-            }
+      } else {
 
-            if (move_uploaded_file($_FILES['img_name']['tmp_name'], $target_file)) {
-                  // echo "File has been uploaded.";
+
+
+            $first_name = mysqli_real_escape_string($conn, $_POST['first_name']);
+            $last_name = mysqli_real_escape_string($conn, $_POST['last_name']);
+            $dob = mysqli_real_escape_string($conn, $_POST['dob']);
+            $gender = mysqli_real_escape_string($conn, $_POST['gender']);
+            $city = mysqli_real_escape_string($conn, $_POST['city']);
+            $target_file = "lol";
+
+            // Handling file upload
+            $allowed_file_types = ['image/png', 'image/jpeg'];
+            $max_file_size = 10 * 1024 * 1024; // 10MB in bytes
+
+            if (isset($_FILES['img_name']) && $_FILES['img_name']['error'] == 0) {
+                  $img_name = $_FILES['img_name']['name'];
+                  $file_size = $_FILES['img_name']['size'];
+                  $file_type = mime_content_type($_FILES['img_name']['tmp_name']);
+                  $target_dir = "uploads/";
+                  $target_file = $target_dir . basename($img_name);
+
+                  if (!in_array($file_type, $allowed_file_types)) {
+                        echo "Invalid file type. Only PNG and JPEG files are allowed.";
+                        exit();
+                  }
+                  if ($file_size > $max_file_size) {
+                        echo "File size exceeds the 10MB limit.";
+                        exit();
+                  }
+
+                  if (move_uploaded_file($_FILES['img_name']['tmp_name'], $target_file)) {
+                        // echo "File has been uploaded.";
+                  } else {
+                        echo "Sorry, there was an error uploading your file.";
+                        exit();
+                  }
             } else {
-                  echo "Sorry, there was an error uploading your file.";
+                  echo "File upload error.";
                   exit();
             }
-      } else {
-            echo "File upload error.";
-            exit();
+
+            // Prepare an SQL statement
+            $stmt = $conn->prepare("INSERT INTO `student` (`user_id`, `first_name`, `last_name`, `dob`, `gender`, `city`, `img_name`) 
+            VALUES (?, ?, ?, ?, ?, ?, ?)");
+            $stmt->bind_param("issssss", $user_id, $first_name, $last_name, $dob, $gender, $city, $target_file);
+
+            if ($stmt->execute()) {
+                  // echo "Data Inserted";
+            } else {
+                  echo "Data Not Inserted: " . $stmt->error;
+            }
+
+            $stmt->close();
       }
-
-      // Prepare an SQL statement
-      $stmt = $conn->prepare("INSERT INTO `student` (`user_id`, `first_name`, `last_name`, `dob`, `gender`, `city`, `img_name`) 
-      VALUES (?, ?, ?, ?, ?, ?, ?)");
-      $stmt->bind_param("issssss", $user_id, $first_name, $last_name, $dob, $gender, $city, $target_file);
-
-      if ($stmt->execute()) {
-            // echo "Data Inserted";
-      } else {
-            echo "Data Not Inserted: " . $stmt->error;
-      }
-
-      $stmt->close();
 }
 ?>
 
