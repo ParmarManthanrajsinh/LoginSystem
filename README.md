@@ -2,7 +2,7 @@
 <p>This repository contains a basic login system implemented in PHP and styled with Bootstrap. The system includes functionalities for user registration, login, logout, and user information update.</p>
 
 
-git clone https://github.com/yourusername/LoginSystem.git
+git clone https://github.com/ParmarManthanrajsinh/LoginSystem.git
 <pre>
 Navigate to the project directory:
 
