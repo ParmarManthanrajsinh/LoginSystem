@@ -46,6 +46,7 @@ login.php          Login page.
 logout.php         Script to handle user logout.
 signup.php         Registration page.
 style.css          Contains the CSS for styling the pages, including Bootstrap overrides if any.
+users.sql          Export SQL file for setting up database
 ```
 
 ## Database Setup
